@@ -36,6 +36,6 @@ No major problems were encountered during development. The program was straightf
 #### Successful Program Run
 ![alt text](images/SuccessfulProgramRun.png)
 
-2. **Unit Test Run**: A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 8 tests in 0.001s OK").
+2. **Unit Test Run**: A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 7 tests in 0.001s OK").
 #### Unit Test Successful Program Run
 ![alt text](images/UnitTestSuccessfulProgramRun.png)
