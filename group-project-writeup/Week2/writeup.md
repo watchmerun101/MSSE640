@@ -32,10 +32,10 @@ No major problems were encountered during development. The program was straightf
 
 ## Screen Shots
 
-1. **Successful Program Run**: A screenshot showing the console output when running `triangle_checker.py` interactively, with inputs 3, 4, 5, displaying "The sides form a valid triangle. Triangle type: Scalene".
+#### 1. **Successful Program Run**: A screenshot showing the console output when running `triangle_checker.py` interactively, with inputs 3, 4, 5, displaying "The sides form a valid triangle. Triangle type: Scalene".
 #### Successful Program Run
 ![alt text](images/SuccessfulProgramRun.png)
 
-2. **Unit Test Run**: A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 7 tests in 0.001s OK").
+#### 2. **Unit Test Run**: A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 7 tests in 0.001s OK").
 #### Unit Test Successful Program Run
 ![alt text](images/UnitTestSuccessfulProgramRun.png)
