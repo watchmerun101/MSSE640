@@ -17,6 +17,7 @@ The IDE used for development was Visual Studio Code. Data is input into the prog
 | 5      | 5      | 3      | Yes    | Isosceles     |
 | 1      | 2      | 10     | No     | N/A           |
 | 0      | 4      | 5      | No     | N/A           |
+| 3      | 4      | a      | No     | N/A           |
 
 ## Unit Tests
 
@@ -33,11 +34,22 @@ No major problems were encountered during development. The program was straightf
 ## Screen Shots
 
 #### 1. **Successful Program Run**: 
-A screenshot showing the console output when running `triangle_checker.py` interactively, with inputs 3, 4, 5, displaying "The sides form a valid triangle. Triangle type: Scalene".
-#### Successful Program Run
+A screenshot showing the console output when running `triangle_checker.py` interactively. First  with inputs 3, 4, 5, displaying "The sides form a valid triangle. Triangle type: Scalene". Second,  with inputs 5, 5, 5, displaying "The sides form a valid triangle. Triangle type: Equilateral". Third,  with inputs 5, 5, 3, displaying "The sides form a valid triangle. Triangle type: Isosceles".
+#### Successful Program Run 1
 ![alt text](images/SuccessfulProgramRun.png)
+#### Successful Program Run 2
+![alt text](images/SuccessfulProgramRun2.png)
+#### Successful Program Run 3
+![alt text](images/SuccessfulProgramRun3.png)
 
-#### 2. **Unit Test Run**: 
-A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 7 tests in 0.001s OK").
+#### 2. **Unsuccessful Program Run**: 
+A screenshot showing the console output when running `triangle_checker.py` interactively. First  with inputs 0, 4, 5, displaying "The sides do not form a valid triangle". Second,  with inputs 3, 4, a, displaying "Invalid input. Please enter numeric values for the sides". 
+#### Unsuccessful Program Run 1
+![alt text](images/NonSuccessfulProgramRun.png)
+#### Unsuccessful Program Run 2
+![alt text](images/NonSuccessfulProgramRun2.png)
+
+#### 3. **Unit Test Run**: 
+A screenshot of the terminal running `python -m unittest test_triangle_checker.py`, showing all tests passing (e.g., "Ran 8 tests in 0.001s OK").
 #### Unit Test Successful Program Run
 ![alt text](images/UnitTestSuccessfulProgramRun.png)

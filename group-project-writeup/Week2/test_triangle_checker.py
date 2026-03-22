@@ -47,5 +47,16 @@ class TestTriangleChecker(unittest.TestCase):
         self.assertEqual(triangle_type(5, 3, 5), "Isosceles")
         self.assertEqual(triangle_type(3, 5, 5), "Isosceles")
 
+    def test_non_numerical_side(self):
+        """Test that non-numerical sides cause ValueError."""
+        with self.assertRaises(ValueError):
+            is_valid_triangle("a", 4, 5)
+        with self.assertRaises(ValueError):
+            is_valid_triangle(3, "b", 5)
+        with self.assertRaises(ValueError):
+            is_valid_triangle(3, 4, "c")
+        with self.assertRaises(ValueError):
+            triangle_type("a", 4, 5)
+
 if __name__ == '__main__':
     unittest.main()
