@@ -1,0 +1,401 @@
+{
+  "info": {
+    "_postman_id": "6028c3ff-2307-4b40-ac7d-c8b541d32e4b",
+    "name": "Triangle API Demo Collection",
+    "description": "Collection for MSSE640 Part 2 demo: CRUD, environment variables, and error handling.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 - Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/health",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Health response has status ok', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.status).to.eql('ok');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "02 - List All Triangles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('List response has count and items', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('count');",
+              "  pm.expect(body).to.have.property('items');",
+              "  pm.expect(body.items).to.be.an('array');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "03 - Create Triangle (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 3,\n  \"b\": 4,\n  \"c\": 5\n}"
+        },
+        "url": {
+          "raw": "{{url}}/triangles",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "pm.test('Save triangle id from POST response', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('item');",
+              "  pm.expect(body.item).to.have.property('id');",
+              "  pm.environment.set('triangle_id', String(body.item.id));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "04 - Get Triangle By ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles/{{triangle_id}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles",
+            "{{triangle_id}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Returned ID matches environment triangle_id', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(String(body.item.id)).to.eql(pm.environment.get('triangle_id'));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "05 - Filter Triangles by Type",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles?type=Scalene",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "Scalene"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Filtered results are all Scalene', function () {",
+              "  const body = pm.response.json();",
+              "  for (const item of body.items) {",
+              "    pm.expect(item.triangle_type).to.eql('Scalene');",
+              "  }",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "06 - Update Triangle (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 5,\n  \"b\": 5,\n  \"c\": 5\n}"
+        },
+        "url": {
+          "raw": "{{url}}/triangles/{{triangle_id}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles",
+            "{{triangle_id}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Triangle type updated to Equilateral', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.item.triangle_type).to.eql('Equilateral');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "07 - Summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles/summary",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles",
+            "summary"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Summary has required keys', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('total');",
+              "  pm.expect(body).to.have.property('valid');",
+              "  pm.expect(body).to.have.property('invalid');",
+              "  pm.expect(body).to.have.property('by_type');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "08 - Error Example: Get Missing Triangle",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles/999999",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles",
+            "999999"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 404', function () {",
+              "  pm.response.to.have.status(404);",
+              "});",
+              "pm.test('Error payload includes message and status', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('error');",
+              "  pm.expect(body.status).to.eql(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "09 - Delete Triangle",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{url}}/triangles/{{triangle_id}}",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles",
+            "{{triangle_id}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "10 - POST Error Example: Missing Field",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 5,\n  \"b\": 10\n}"
+        },
+        "url": {
+          "raw": "{{url}}/triangles",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "triangles"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 400', function () {",
+              "  pm.response.to.have.status(400);",
+              "});",
+              "pm.test('Missing field response is clear', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('error');",
+              "  pm.expect(body.status).to.eql(400);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": "http://127.0.0.1:5000"
+    }
+  ]
+}

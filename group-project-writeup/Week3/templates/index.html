@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triangle Nexus UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="grid-overlay"></div>
+  <div class="halo halo-a"></div>
+  <div class="halo halo-b"></div>
+
+  <main class="shell">
+    <header class="hero panel">
+      <p class="kicker">MSSE640 | TRIANGLE ANALYTICS</p>
+      <h1>Triangle Nexus Control Deck</h1>
+      <p class="subtitle">Create, classify, filter, update, and purge triangle records from a single sci-fi command interface.</p>
+      <div class="hero-actions">
+        <button id="refresh-all" class="btn btn-primary">Refresh Data Grid</button>
+        <a class="btn btn-ghost" href="/">API Root</a>
+      </div>
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+    </header>
+
+    <section class="panel summary-panel">
+      <h2>System Summary</h2>
+      <div class="summary-grid" id="summary-grid">
+        <article class="stat"><span>Total</span><strong id="sum-total">0</strong></article>
+        <article class="stat"><span>Valid</span><strong id="sum-valid">0</strong></article>
+        <article class="stat"><span>Invalid</span><strong id="sum-invalid">0</strong></article>
+      </div>
+      <pre id="by-type" class="json-block">{}</pre>
+    </section>
+
+    <section class="panel controls">
+      <h2>Query Filter</h2>
+      <div class="filter-wrap">
+        <label for="type-filter">Triangle Type</label>
+        <select id="type-filter">
+          <option value="">All</option>
+          <option value="Scalene">Scalene</option>
+          <option value="Isosceles">Isosceles</option>
+          <option value="Equilateral">Equilateral</option>
+          <option value="NotATriangle">NotATriangle</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel form-panel">
+      <h2>Create Triangle</h2>
+      <form id="create-form" class="form-grid">
+        <label>A <input type="number" step="any" name="a" required></label>
+        <label>B <input type="number" step="any" name="b" required></label>
+        <label>C <input type="number" step="any" name="c" required></label>
+        <button class="btn btn-primary" type="submit">Create</button>
+      </form>
+    </section>
+
+    <section class="panel form-panel">
+      <h2>Update Triangle by ID</h2>
+      <form id="update-form" class="form-grid">
+        <label>ID <input type="number" step="1" min="1" name="id" required></label>
+        <label>A <input type="number" step="any" name="a" required></label>
+        <label>B <input type="number" step="any" name="b" required></label>
+        <label>C <input type="number" step="any" name="c" required></label>
+        <button class="btn btn-primary" type="submit">Update</button>
+      </form>
+    </section>
+
+    <section class="panel form-panel">
+      <h2>Delete Triangle by ID</h2>
+      <form id="delete-form" class="form-inline">
+        <label>ID <input type="number" step="1" min="1" name="id" required></label>
+        <button class="btn btn-danger" type="submit">Delete</button>
+      </form>
+    </section>
+
+    <section class="panel list-panel">
+      <h2>Triangle Data Grid</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>A</th>
+              <th>B</th>
+              <th>C</th>
+              <th>Valid</th>
+              <th>Type</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="triangles-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
