@@ -640,7 +640,7 @@ Sample response:
 ```
 
 ### 1. Postman Collection
-![Postman collection Health](week3_PostmanGET_williampriddy.png)
+![Postman collection Health](images/week3_PostmanGET_williampriddy.png)
 
 ### 2. GET List Response
 ![GET list response](images/week3_PostmanGET2_williampriddy.png)
