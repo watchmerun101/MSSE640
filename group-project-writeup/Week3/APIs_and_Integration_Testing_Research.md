@@ -483,42 +483,176 @@ Below are 5 commonly used public APIs that developers can use to get real-world 
 
 ---
 
-## Conclusion
+# Part 2: Postman Video Demo and Test Document (Triangle API)
 
-Understanding HTTP basics, APIs, CORS, and security principles is fundamental to modern web development and API integration testing. HTTP's stateless nature combined with extensible architecture makes it ideal for web communication. APIs enable the interconnected applications that power modern digital experiences, while CORS provides the security mechanism for safe cross-origin communication. Proper API security implementation ensures that valuable data and services remain protected from unauthorized access.
+## Student Deliverable Context
+This document supports the Part 2 assignment requirements:
+- Demo API testing in Postman
+- Show environment variables and a collection
+- Include GET and POST requests plus additional CRUD requests
+- Explain persistence behavior
+- Show normal and error JSON responses
+- Provide screenshots in markdown
 
-When testing APIs with Postman or integrating them into applications, always ensure:
-- Proper authentication/authorization is implemented
-- HTTPS is used for all communications
-- Cross-origin restrictions are properly handled
-- Rate limits and security policies are respected
-- API keys and tokens are never hardcoded or exposed
+## API Chosen
+I implemented a local Flask API named Triangle API.
 
----
+Project files:
+- triangle_api.py
+- requirements.txt
+- Triangle_API_Collection.postman_collection.json
+- Triangle_API_Local_Environment.postman_environment.json
 
-## References
+## Local API Run Steps
+1. Open terminal in this folder (group-project-writeup/Week3).
+2. Create a virtual environment:
+   python -m venv .venv
+3. Activate the virtual environment:
+   - Windows:  .venv\Scripts\activate.bat
+   - macOS/Linux:  source .venv/bin/activate
+4. Install dependencies:
+   pip install -r requirements.txt
+5. Run the Flask API server:
+   python triangle_api.py
+6. Confirm API is up with POSTMAN:
+   GET http://127.0.0.1:5000/health
 
-1. Mozilla Developer Network - HTTP Overview  
-   https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview
+## Data Persistence (CRUD Explanation)
+This API stores data in a local SQLite database file named triangles.db in the same folder as triangle_api.py.
 
-2. Mozilla Developer Network - HTTP Status Codes  
-   https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status
+Persistence behavior:
+- Data created via POST /triangles is saved to triangles.db.
+- Data remains available for later GET requests.
+- Updated values via PUT /triangles/<id> stay changed in the database.
+- Deleted records via DELETE /triangles/<id> are removed from the database.
+- Because storage is file-based SQLite, data persists across API restarts unless triangles.db is deleted.
 
-3. Mozilla Developer Network - HTTP Methods  
-   https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods
+## Postman Setup Performed
+1. Created collection: Triangle API Demo Collection
+2. Created environment: Triangle API Local
+3. Added environment variable:
+   - url = http://127.0.0.1:5000
+4. Refactored requests to use {{url}}
+5. Added 10 requests (GET, POST, PUT, DELETE)
 
-4. Mozilla Developer Network - CORS  
-   https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+## Request List Used in Demo
+1. GET {{url}}/health
+2. GET {{url}}/triangles
+3. POST {{url}}/triangles (valid JSON body: a, b, c)
+4. GET {{url}}/triangles/{{triangle_id}}
+5. GET {{url}}/triangles?type=Scalene
+6. PUT {{url}}/triangles/{{triangle_id}}
+7. GET {{url}}/triangles/summary
+8. GET {{url}}/triangles/999999 (error example)
+9. DELETE {{url}}/triangles/{{triangle_id}}
+10. POST {{url}}/triangles (missing field body error example)
 
-5. Mozilla Developer Network - HTTP Authentication  
-   https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Authentication
+## JSON Response Examples (At Least Three)
 
-6. IBM Topics - Open APIs  
-   https://www.ibm.com/topics/open-apis
+### Example 3: Successful POST Create
+Request body:
+```json
+{
+  "a": 3,
+  "b": 4,
+  "c": 5
+}
+```
 
-7. OWASP - Cross Site Request Forgery  
-   https://owasp.org/www-community/attacks/csrf
+Sample response:
+```json
+{
+  "message": "Triangle created.",
+  "item": {
+    "id": 1,
+    "a": 3.0,
+    "b": 4.0,
+    "c": 5.0,
+    "is_valid": true,
+    "triangle_type": "Scalene",
+    "created_at": "2026-03-29T00:00:00+00:00"
+  }
+}
+```
 
-8. OpenWeatherMap Official Documentation  
-   https://openweathermap.org/
+### Example 5: Successful GET List
+Sample response:
+```json
+{
+  "count": 1,
+  "items": [
+    {
+      "id": 1,
+      "a": 3.0,
+      "b": 4.0,
+      "c": 5.0,
+      "is_valid": true,
+      "triangle_type": "Scalene",
+      "created_at": "2026-03-29T00:00:00+00:00"
+    }
+  ]
+}
+```
 
+### Example 7: Successful GET Summary
+Sample response:
+```json
+{
+  "total": 1,
+  "valid": 1,
+  "invalid": 0,
+  "by_type": {
+    "Scalene": 1
+  }
+}
+```
+
+## Error Response Example (Missing Resource)
+The assignment asks for an error example similar to searching for a user that does not exist.
+
+Here, the equivalent is requesting a triangle ID that does not exist:
+- GET {{url}}/triangles/999999
+
+Sample response:
+```json
+{
+  "error": "Triangle with id 999999 was not found.",
+  "status": 404
+}
+```
+
+## Additional Error Example (Bad POST Body)
+If POST body is missing field c:
+
+```json
+{
+  "a": 5,
+  "b": 10
+}
+```
+
+Sample response:
+```json
+{
+  "error": "Missing required field(s): c",
+  "status": 400
+}
+```
+
+### 1. Postman Collection
+![Postman collection Health](week3_PostmanGET_williampriddy.png)
+
+### 2. GET List Response
+![GET list response](images/week3_PostmanGET2_williampriddy.png)
+
+### 3. POST Create Response
+![POST create response](images/week3_PostmanPOST_williampriddy.png)
+
+### 4. Error Response (Missing Triangle)
+![404 error response](images/week3_PostmanGETerror_williampriddy.png)
+
+### 5. API Running Locally (Terminal)
+![Flask API running locally](images/week3_FlaskAPILocal_williampriddy.png)
+
+### 6. Demo (YouTube Clickable Image)
+[![Demo](images/week3_UpdateTrianglebyID_williampriddy.png)](https://www.youtube.com/watch?v=TiEsXKCt_r8)
