@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airport Security Bug Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="gradient-ball ball-a" aria-hidden="true"></div>
+  <div class="gradient-ball ball-b" aria-hidden="true"></div>
+
+  <main class="layout">
+    <header class="panel hero">
+      <p class="eyebrow">MSSE640 | BLACK BOX TESTING LAB</p>
+      <h1>Airport Security Bug Scanner</h1>
+      <p class="subtitle">
+        Each round activates 5 hidden bugs from a pool of 15 using stratified selection.
+        Find all active defects by comparing scanner behavior against policy.
+      </p>
+      <div class="hero-actions">
+        <button id="new-game-btn" class="btn btn-primary">New Game</button>
+      </div>
+      <div class="mode-controls">
+        <label class="mode-item" for="deterministic-toggle">
+          <input id="deterministic-toggle" type="checkbox">
+          Deterministic Test Mode
+        </label>
+        <label class="mode-item" for="seed-input">
+          Seed
+          <input id="seed-input" type="text" value="MSSE640-DEMO" maxlength="40" aria-label="Deterministic seed">
+        </label>
+        <label class="mode-item" for="instructor-toggle">
+          <input id="instructor-toggle" type="checkbox">
+          Instructor Reveal Mode
+        </label>
+      </div>
+      <p id="banner" class="banner" role="status" aria-live="polite">Press New Game to begin.</p>
+    </header>
+
+    <section class="panel stats">
+      <article>
+        <p>Round</p>
+        <h2 id="round-num">0</h2>
+      </article>
+      <article>
+        <p>Active Bugs Found</p>
+        <h2 id="bug-progress">0/5</h2>
+      </article>
+      <article>
+        <p>Score</p>
+        <h2 id="score">0</h2>
+      </article>
+      <article>
+        <p>Passenger Queue</p>
+        <h2 id="queue-left">0</h2>
+      </article>
+    </section>
+
+    <section class="panel two-col">
+      <div>
+        <h3>Stratified Round Mix</h3>
+        <ul class="legend">
+          <li>Boundary bugs active: <strong id="mix-boundary">0</strong></li>
+          <li>Equivalence bugs active: <strong id="mix-equivalence">0</strong></li>
+          <li>Wildcard active: <strong id="mix-wildcard">0</strong></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Policy Rules</h3>
+        <ul class="legend">
+          <li>Bag weight must be less than or equal to 7.0 kg</li>
+          <li>Largest liquid container must be less than or equal to 100 ml</li>
+          <li>Liquid container count must be less than or equal to 3</li>
+          <li>No prohibited items</li>
+          <li>Boarding pass must be valid</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel passenger" id="passenger-panel">
+      <div class="passenger-panes">
+        <div class="passenger-pane current-pane">
+          <h3>Current Passenger</h3>
+          <div class="passenger-grid" id="current-passenger-grid">
+            <p class="placeholder">Start a new game to load passengers.</p>
+          </div>
+          <div class="verdict-wrap">
+            <p class="label">Scanner Verdict</p>
+            <p id="scanner-verdict" class="verdict">N/A</p>
+          </div>
+        </div>
+
+        <div class="passenger-pane previous-pane" id="previous-passenger-pane" hidden>
+          <h3>Previous Passenger</h3>
+          <div class="passenger-grid" id="previous-passenger-grid">
+            <p class="placeholder">No previous passenger yet.</p>
+          </div>
+          <div class="verdict-wrap">
+            <p class="label">Scanner Verdict</p>
+            <p id="previous-scanner-verdict" class="verdict">N/A</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="approve-btn" class="btn btn-ghost" disabled>Approve Scanner</button>
+        <button id="flag-btn" class="btn btn-alert" disabled>Flag Bug</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Bug Discoveries (Unique Per Round)</h3>
+      <ul id="discovered-list" class="discoveries">
+        <li class="placeholder">No bugs discovered yet.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h3>Instructor Reveal (After Round End)</h3>
+      <ul id="active-bug-list" class="discoveries">
+        <li class="placeholder">Enable Instructor Reveal Mode. Active bug IDs are shown only after round completion.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h3>Round Event Log</h3>
+      <ul id="event-log" class="events">
+        <li class="placeholder">Events will appear here.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
