@@ -1,0 +1,191 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airport Security Decision Table Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="gradient-ball ball-a" aria-hidden="true"></div>
+  <div class="gradient-ball ball-b" aria-hidden="true"></div>
+
+  <main class="layout">
+    <header class="panel hero">
+      <p class="eyebrow">MSSE640 | DECISION TABLE & PAIRWISE TESTING</p>
+      <h1>Airport Security Decision Table Lab</h1>
+      <p class="subtitle">
+        Build, edit, and evaluate airport security rules. Use the editable decision table by default, and turn on Educator Mode to guide scenario creation and pairwise testing.
+      </p>
+      <div class="hero-actions">
+        <button id="reset-app-btn" class="btn btn-primary">Reset App</button>
+        <button id="refresh-table-btn" class="btn btn-ghost">Reset Rules</button>
+      </div>
+      <div class="mode-controls">
+        <label class="mode-item" for="educator-toggle">
+          <input id="educator-toggle" type="checkbox">
+          Educator Mode
+        </label>
+        <label class="mode-item" for="deterministic-toggle">
+          <input id="deterministic-toggle" type="checkbox">
+          Deterministic Names
+        </label>
+        <label class="mode-item" for="seed-input">
+          Seed
+          <input id="seed-input" type="text" value="MSSE640-DEMO" maxlength="40" aria-label="Deterministic seed">
+        </label>
+      </div>
+      <p id="banner" class="banner" role="status" aria-live="polite">Use the editable decision table or turn on Educator Mode to start.</p>
+    </header>
+
+    <section class="panel stats">
+      <article>
+        <p>Evaluations</p>
+        <h2 id="round-num">0</h2>
+      </article>
+      <article>
+        <p>Decision Rules</p>
+        <h2 id="bug-progress">0</h2>
+      </article>
+      <article>
+        <p>Last Verdict</p>
+        <h2 id="score">N/A</h2>
+      </article>
+      <article>
+        <p>Pairwise Cases</p>
+        <h2 id="queue-left">0</h2>
+      </article>
+    </section>
+
+    <section class="panel two-col">
+      <div class="panel-block">
+        <h3>Editable Decision Table</h3>
+        <p class="panel-note">The table drives the scanner verdict. Edit condition values and actions directly to see how rules change results.</p>
+        <div id="decision-table-container" class="decision-table-container"></div>
+      </div>
+      <div class="panel-block guidance-panel hidden" id="educator-panel">
+        <h3>Educator Guided Input</h3>
+        <p class="panel-note">Create a scenario step-by-step and compare the policy outcome versus the decision table output.</p>
+        <form id="guided-form" class="guided-form">
+          <label>
+            Bag Weight (kg)
+            <input id="guided-weight" type="number" step="0.1" value="6.2" min="-5" max="20">
+          </label>
+          <label>
+            Liquid Volume (ml)
+            <input id="guided-liquid" type="number" step="1" value="80" min="0" max="250">
+          </label>
+          <label>
+            Container Count
+            <input id="guided-containers" type="number" step="1" value="2" min="0" max="10">
+          </label>
+          <label class="checkbox-label">
+            <input id="guided-prohibited" type="checkbox">
+            Contains prohibited item
+          </label>
+          <label class="checkbox-label">
+            <input id="guided-pass-valid" type="checkbox" checked>
+            Boarding pass valid
+          </label>
+          <button id="evaluate-guided-btn" type="button" class="btn btn-primary">Evaluate Scenario</button>
+        </form>
+        <div class="guided-results">
+          <p><strong>Matching Rule:</strong> <span id="matched-rule">None</span></p>
+          <p><strong>Table Verdict:</strong> <span id="table-verdict">N/A</span></p>
+          <p><strong>Policy Verdict:</strong> <span id="policy-verdict">N/A</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Pairwise Test Cases</h3>
+      <p class="panel-note">Generate a compact set of test cases that covers every pair of input values.</p>
+      <div class="scenario-actions">
+        <button id="generate-pairwise-btn" class="btn btn-primary">Generate Pairwise Cases</button>
+        <button id="load-sunny-btn" class="btn btn-ghost">Sunny Day</button>
+        <button id="load-rainy-btn" class="btn btn-alert">Rainy Day</button>
+      </div>
+      <div class="pairwise-descriptions">
+        <p><strong>Generate Pairwise Cases</strong> — builds a compact set of scenarios that exercise every two-factor combination.</p>
+        <p><strong>Sunny Day</strong> — loads a representative all-clear case for demonstration.</p>
+        <p><strong>Rainy Day</strong> — loads a representative failure case to show how the rule set responds.</p>
+      </div>
+      <div class="panel-note">Guided pairwise inputs let educators choose values for each pairwise dimension and immediately evaluate the resulting scenario.</div>
+      <form id="pairwise-guided-form" class="guided-form pairwise-guided-form educator-only hidden">
+        <label>
+          Weight group
+          <select id="pairwise-weight" class="select-cell">
+            <option value="normal">normal (≤ 7kg)</option>
+            <option value="heavy">heavy (> 7kg)</option>
+          </select>
+        </label>
+        <label>
+          Liquid group
+          <select id="pairwise-liquid" class="select-cell">
+            <option value="ok">ok (≤ 100ml)</option>
+            <option value="over">over (> 100ml)</option>
+          </select>
+        </label>
+        <label>
+          Container group
+          <select id="pairwise-containers" class="select-cell">
+            <option value="ok">ok (≤ 3)</option>
+            <option value="over">over (> 3)</option>
+          </select>
+        </label>
+        <label>
+          Prohibited item
+          <select id="pairwise-prohibited" class="select-cell">
+            <option value="none">none</option>
+            <option value="present">present</option>
+          </select>
+        </label>
+        <label>
+          Boarding pass
+          <select id="pairwise-pass-valid" class="select-cell">
+            <option value="valid">valid</option>
+            <option value="invalid">invalid</option>
+          </select>
+        </label>
+        <button id="evaluate-pairwise-guided-btn" type="button" class="btn btn-primary">Evaluate Pairwise Case</button>
+      </form>
+      <div id="pairwise-results" class="guided-results pairwise-results educator-only hidden">
+        <p><strong>Pairwise Rule:</strong> <span id="pairwise-matched-rule">None</span></p>
+        <p><strong>Table Verdict:</strong> <span id="pairwise-table-verdict">N/A</span></p>
+        <p><strong>Policy Verdict:</strong> <span id="pairwise-policy-verdict">N/A</span></p>
+      </div>
+      <ul id="pairwise-list" class="pairwise-list"></ul>
+    </section>
+
+    <section class="panel passenger" id="passenger-panel">
+      <div class="passenger-panes">
+        <div class="passenger-pane current-pane">
+          <h3>Current Scenario</h3>
+          <div class="passenger-grid" id="current-passenger-grid">
+            <p class="placeholder">Evaluate a scenario to display a passenger.</p>
+          </div>
+          <div class="verdict-wrap">
+            <p class="label">Table Verdict</p>
+            <p id="scanner-verdict" class="verdict">N/A</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h3>Sunny Day / Rainy Day Notes</h3>
+      <ul class="legend">
+        <li>Sunny Day: all conditions satisfy policy, expect <strong>CLEAR</strong>.</li>
+        <li>Rainy Day: one or more conditions fail, expect <strong>HOLD</strong>.</li>
+        <li>Pairwise Testing helps reduce the number of scenarios while covering all two-factor combinations.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
