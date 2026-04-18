@@ -56,8 +56,8 @@ body {
 }
 
 .layout {
-  width: min(1100px, 94vw);
-  margin: 20px auto 40px;
+  width: calc(100vw - 24px);
+  margin: 12px auto 20px;
   display: grid;
   gap: 14px;
   position: relative;
@@ -217,17 +217,19 @@ h3 {
 }
 
 .decision-table {
-  width: 100%;
+  width: auto;
+  min-width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 }
 
 .decision-table th,
 .decision-table td {
   border: 1px solid var(--line);
-  padding: 10px 8px;
+  padding: 8px 6px;
   text-align: center;
   vertical-align: middle;
-  min-width: 110px;
+  min-width: 80px;
 }
 
 .decision-table th {
@@ -244,6 +246,11 @@ h3 {
   background: rgba(255, 255, 255, 0.9);
   font-family: inherit;
   font-size: 0.95rem;
+}
+
+.decision-table input[readonly] {
+  min-width: 200px;
+  white-space: nowrap;
 }
 
 .guided-form {

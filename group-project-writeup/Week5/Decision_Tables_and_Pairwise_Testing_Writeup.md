@@ -102,6 +102,15 @@ The **Airport Security Decision Table Lab** (`airline-security-game/`) is a web 
 3. **Generate Pairwise Test Cases** — Automatically create a compact set of scenarios covering all parameter pairs
 4. **Evaluate Sunny Day and Rainy Day Scenarios** — Test representative pass and fail cases
 
+**Version 2** (`index-v2.html` / `app-v2.js`) extends the original with a student-focused workflow:
+
+- **Goal Section** — A visible banner at the top explains the task before the user begins
+- **Blank Decision Table** — All condition and action cells start empty; rule titles are prefilled and read-only to control fill order
+- **Submit Decision Table Button** — Users submit their completed table to check their work
+- **Editable Pairwise Inputs** — Weight, liquid, containers, prohibited, and boarding pass are free-form numeric/checkbox inputs rather than preset dropdowns
+- **Submit Pairwise Case Button** — Users submit a custom test case for immediate evaluation
+- **Educator-Mode Pairwise Hint** — The instructional note for pairwise inputs is hidden by default and appears only when Educator Mode is enabled
+
 #### Application Interface
 ![Main App Interface](images/week5_vibecoding_interface.png)
 
@@ -113,10 +122,13 @@ The **Airport Security Decision Table Lab** (`airline-security-game/`) is a web 
 - **Vanilla JavaScript** — No dependencies; all logic implemented in pure JS
 
 #### Key Files
-- `index.html` — UI structure with decision table, guided input forms, and scenario display
-- `app.js` — Core logic: decision table evaluation, pairwise generation, passenger scenario creation
-- `styles.css` — Responsive design and accessibility styling
-- `README.md` — Quick reference guide
+- `index.html` — Original UI structure with decision table, guided input forms, and scenario display
+- `app.js` — Original core logic: decision table evaluation, pairwise generation, passenger scenario creation
+- `index-v2.html` — Version 2 UI: adds Goal section, prefilled rule titles, blank decision table, submit buttons, and educator-mode-gated pairwise note
+- `app-v2.js` — Version 2 logic: blank default decision table, submit/validation handlers, read-only title cells
+- `styles.css` — Responsive design and accessibility styling (shared by both versions)
+- `README.md` — Quick reference guide (v1)
+- `README-v2.md` — Quick reference guide for Version 2
 
 ### Policy Rules
 
@@ -136,17 +148,19 @@ ELSE
 
 ### Decision Table
 
-The application includes a 7-rule decision table:
+The application includes a 7-rule decision table. In Version 1 all cells are pre-filled; in Version 2 the condition and action cells start blank and the user must complete them.
 
-| Rule | Weight ≤ 7 | Liquid ≤ 100 | Containers ≤ 3 | No Prohibited | Pass Valid | Action |
-|------|-----------|-------------|----------------|--------------|----------|--------|
-| R1   | T         | T           | T              | T            | T        | CLEAR  |
-| R2   | F         | T           | T              | T            | T        | HOLD   |
-| R3   | T         | F           | T              | T            | T        | HOLD   |
-| R4   | T         | T           | F              | T            | T        | HOLD   |
-| R5   | T         | T           | T              | F            | T        | HOLD   |
-| R6   | T         | T           | T              | T            | F        | HOLD   |
-| R7   | F         | F           | F              | F            | F        | HOLD   |
+| Rule | Title | Weight ≤ 7 | Liquid ≤ 100 | Containers ≤ 3 | No Prohibited | Pass Valid | Action |
+|------|-------|-----------|-------------|----------------|--------------|----------|--------|
+| R1   | Sunny Day — All conditions pass     | T | T | T | T | T | CLEAR |
+| R2   | Rainy Day — Overweight              | F | T | T | T | T | HOLD  |
+| R3   | Rainy Day — Too much liquid         | T | F | T | T | T | HOLD  |
+| R4   | Rainy Day — Too many containers     | T | T | F | T | T | HOLD  |
+| R5   | Rainy Day — Prohibited item         | T | T | T | F | T | HOLD  |
+| R6   | Rainy Day — Invalid boarding pass   | T | T | T | T | F | HOLD  |
+| R7   | Rainy Day — Multiple failures       | F | F | F | F | F | HOLD  |
+
+> **Version 2 note:** Rule titles are prefilled and read-only in the UI so the fill order is controlled. All condition cells default to **T** — students flip only the conditions that should be F or - for each rule. The action column starts blank (CLEAR/HOLD). Click **Submit Decision Table** to verify the completed work.
 
 ### Sunny Day Scenario
 
@@ -448,18 +462,29 @@ This mirrors agile development and aligns with how humans naturally think about 
 
 ### Appendix A: Running the Application Locally
 
+**Version 1 (original):**
 1. Open `airline-security-game/index.html` in a modern web browser (Chrome, Firefox, Safari, Edge).
 2. Use the editable decision table to modify rules.
 3. Toggle "Educator Mode" to enable guided input and pairwise scenario builder.
 4. Click "Generate Pairwise Cases" to create a compact test set.
 5. Evaluate "Sunny Day" and "Rainy Day" scenarios to compare policy vs. decision table verdicts.
 
+**Version 2 (student-facing):**
+1. Open `airline-security-game/index-v2.html` in a modern web browser.
+2. Read the **Goal** section to understand the task.
+3. Fill in the blank decision table — rule titles are prefilled; complete the condition and action columns.
+4. Click **Submit Decision Table** to check your rules.
+5. Enter values in the Pairwise Test Case inputs (weight, liquid, containers, prohibited item, boarding pass).
+6. Click **Submit Pairwise Case** to evaluate your scenario against the policy.
+7. Toggle **Educator Mode** to reveal the pairwise input hint and the guided scenario builder.
+
 ### Appendix B: Decision Table Editing Rules
 
 - **Row Conditions:** T (True), F (False), or - (Don't Care)
 - **Action Column:** CLEAR or HOLD
-- **Rule Title:** Descriptive label for the rule
-- **Editing:** All cells are live-editable; changes take effect immediately
+- **Rule Title:** Prefilled and read-only in Version 2 (controls the fill order); editable in Version 1
+- **Editing:** Condition and action cells are live-editable via dropdown selects; changes take effect immediately
+- **Submit:** In Version 2, click **Submit Decision Table** after completing all cells to validate your work
 
 ### Appendix C: Pairwise Parameter Mapping
 

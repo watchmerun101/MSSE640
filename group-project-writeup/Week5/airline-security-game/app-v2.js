@@ -23,44 +23,44 @@ const PAIRWISE_VALUE_MAP = {
 const DEFAULT_DECISION_TABLE = [
   {
     id: "R1",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Sunny Day — All conditions pass",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R2",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Overweight",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R3",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Too much liquid",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R4",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Too many containers",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R5",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Prohibited item",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R6",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Invalid boarding pass",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
   {
     id: "R7",
-    title: "",
-    conditions: { weightOk: "", liquidOk: "", containersOk: "", noProhibited: "", validPass: "" },
+    title: "Rainy Day — Multiple failures",
+    conditions: { weightOk: "T", liquidOk: "T", containersOk: "T", noProhibited: "T", validPass: "T" },
     action: "",
   },
 ];
@@ -90,10 +90,24 @@ const dom = {
   pairwiseContainers: document.getElementById("pairwise-containers"),
   pairwiseProhibited: document.getElementById("pairwise-prohibited"),
   pairwisePassValid: document.getElementById("pairwise-pass-valid"),
-  evaluatePairwiseGuidedBtn: document.getElementById("evaluate-pairwise-guided-btn"),
+  evaluatePairwiseGuidedBtn: document.getElementById("evaluate-pairwise-guided-btn"),  pairwiseWeight: document.getElementById("pairwise-weight"),
+  pairwiseLiquid: document.getElementById("pairwise-liquid"),
+  pairwiseContainers: document.getElementById("pairwise-containers"),
+  pairwiseProhibited: document.getElementById("pairwise-prohibited"),
+  pairwisePassValid: document.getElementById("pairwise-pass-valid"),  pairwiseWeight: document.getElementById("pairwise-weight"),
+  pairwiseLiquid: document.getElementById("pairwise-liquid"),
+  pairwiseContainers: document.getElementById("pairwise-containers"),
+  pairwiseProhibited: document.getElementById("pairwise-prohibited"),
+  pairwisePassValid: document.getElementById("pairwise-pass-valid"),
+  pairwiseWeight: document.getElementById("pairwise-weight"),
+  pairwiseLiquid: document.getElementById("pairwise-liquid"),
+  pairwiseContainers: document.getElementById("pairwise-containers"),
+  pairwiseProhibited: document.getElementById("pairwise-prohibited"),
+  pairwisePassValid: document.getElementById("pairwise-pass-valid"),
   pairwiseGuidedForm: document.getElementById("pairwise-guided-form"),
   pairwiseResults: document.getElementById("pairwise-results"),
   matchedRule: document.getElementById("matched-rule"),
+
   tableVerdictLabel: document.getElementById("table-verdict"),
   policyVerdictLabel: document.getElementById("policy-verdict"),
   pairwiseMatchedRule: document.getElementById("pairwise-matched-rule"),
@@ -264,10 +278,9 @@ function renderDecisionTable() {
         const input = document.createElement("input");
         input.value = rule.title;
         input.className = "select-cell";
-        input.addEventListener("change", (event) => {
-          state.decisionTable[ruleIndex].title = event.target.value;
-          renderDecisionTable();
-        });
+        input.readOnly = true;
+        input.style.background = "#f0f0f0";
+        input.style.cursor = "default";
         td.appendChild(input);
       } else if (row.type === "action") {
         const actionSelect = document.createElement("select");
@@ -501,11 +514,11 @@ function renderPairwiseCases() {
 
 function getPairwiseGuidedEntry() {
   return {
-    weight: dom.pairwiseWeight.value,
-    liquid: dom.pairwiseLiquid.value,
-    containers: dom.pairwiseContainers.value,
-    prohibited: dom.pairwiseProhibited.value,
-    passValid: dom.pairwisePassValid.value,
+    weightKg: Number(dom.pairwiseWeight.value),
+    liquidsMl: Number(dom.pairwiseLiquid.value),
+    containerCount: Number(dom.pairwiseContainers.value),
+    prohibited: dom.pairwiseProhibited.checked,
+    passValid: dom.pairwisePassValid.checked,
   };
 }
 
@@ -519,7 +532,7 @@ function submitPairwiseCase() {
     }
   }
   const entry = getPairwiseGuidedEntry();
-  const passenger = makePassenger(mapPairwiseToPassenger(entry));
+  const passenger = makePassenger(entry);
   const tableResult = evaluateDecisionTable(passenger);
   const policyResult = policyDecision(passenger);
   state.evaluationCount += 1;
@@ -600,6 +613,8 @@ function toggleEducatorMode() {
   dom.educatorPanel.classList.toggle("hidden", !isEducator);
   dom.pairwiseGuidedForm.classList.toggle("hidden", !isEducator);
   dom.pairwiseResults.classList.toggle("hidden", !isEducator);
+  const pairwiseNote = document.getElementById("pairwise-note");
+  if (pairwiseNote) pairwiseNote.classList.toggle("hidden", !isEducator);
   setBanner(isEducator ? "Educator Mode is on. Use guided input to build scenarios." : "Fully editable decision table mode is active.");
 }
 
@@ -625,8 +640,8 @@ function resetApp() {
   dom.pairwiseWeight.value = "normal";
   dom.pairwiseLiquid.value = "ok";
   dom.pairwiseContainers.value = "ok";
-  dom.pairwiseProhibited.value = "none";
-  dom.pairwisePassValid.value = "valid";
+  dom.pairwiseProhibited.checked = "none";
+  dom.pairwisePassValid.checked = "valid";
   dom.pairwiseList.innerHTML = "";
   refreshStats();
   setBanner("App reset. Edit the decision table or turn on Educator Mode to begin.");
