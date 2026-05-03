@@ -1,0 +1,274 @@
+{
+  "id": "88f2f45f-1578-423e-9c53-86febdbd95c4",
+  "version": "2.0",
+  "name": "demoblaze-week8.side",
+  "url": "https://www.demoblaze.com/",
+  "tests": [{
+    "id": "f40b8982-0993-499d-9c16-f3d639e05000",
+    "name": "1. login_existing_user",
+    "commands": [{
+      "id": "84844161-92ef-42c0-9ec6-41ad2744c8cd",
+      "comment": "",
+      "command": "store",
+      "target": "",
+      "targets": [],
+      "value": "username"
+    }, {
+      "id": "bd6a79bb-6dad-4f47-92bc-c734925731f8",
+      "comment": "",
+      "command": "store",
+      "target": "",
+      "targets": [],
+      "value": "password"
+    }, {
+      "id": "2e92bba8-98ec-45a9-9bbb-6d08141fdc19",
+      "comment": "",
+      "command": "open",
+      "target": "/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "15d8b3cd-fa9b-4716-bca2-4e68a392095d",
+      "comment": "",
+      "command": "click",
+      "target": "id=login2",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fbe24476-a75c-4376-8ee4-8a91c1e15ed1",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "id=logInModal",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "e92df7a1-dc64-4348-a081-0536df87f03c",
+      "comment": "",
+      "command": "type",
+      "target": "id=loginusername",
+      "targets": [],
+      "value": "username"
+    }, {
+      "id": "0ebb8ef6-e931-49a1-8e34-02afeb465cf9",
+      "comment": "",
+      "command": "type",
+      "target": "id=loginpassword",
+      "targets": [],
+      "value": "password"
+    }, {
+      "id": "35dfe096-fb88-40dc-a0ab-dd37d3226c2e",
+      "comment": "",
+      "command": "click",
+      "target": "css=#logInModal .btn.btn-primary",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "328de753-58ed-4344-a249-ea8d9391a66b",
+      "comment": "",
+      "command": "pause",
+      "target": "",
+      "targets": [],
+      "value": "1500"
+    }, {
+      "id": "0c498f4e-b2e4-47f3-b7a0-bc4af5be60eb",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=nameofuser",
+      "targets": [],
+      "value": "Welcome username"
+    }]
+  }, {
+    "id": "7474e7f6-b099-4372-a301-8b938b8c78ae",
+    "name": "2. add_samsung_s6_verify_price",
+    "commands": [{
+      "id": "faefafc7-ff5d-4d03-9a62-0a5f2d2611d5",
+      "comment": "",
+      "command": "open",
+      "target": "/index.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e2f7504e-ba03-43d7-9f63-eafb1752e6ee",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Samsung galaxy s6",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6bbb5c35-9108-4634-a7d9-5d5cb3f51ba5",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=.name",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "1ab5cda2-6453-4182-98b2-cbd746632eca",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.name",
+      "targets": [],
+      "value": "Samsung galaxy s6"
+    }, {
+      "id": "959dad2d-15f7-48be-bf98-6b387be9192b",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.price-container",
+      "targets": [],
+      "value": "$360 *includes tax"
+    }, {
+      "id": "9ea39b9a-70e1-467f-b61e-0628d894d233",
+      "comment": "",
+      "command": "pause",
+      "target": "",
+      "targets": [],
+      "value": "500"
+    }, {
+      "id": "cf32f388-89e2-47ba-b896-e7b8f373b389",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add to cart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cb5dca68-60c7-42ad-a63c-16b419a8cf27",
+      "comment": "",
+      "command": "assertAlert",
+      "target": "Product added.",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b7e26c91-aa44-4f84-96b9-ee2e12c1ba20",
+      "comment": "",
+      "command": "click",
+      "target": "id=cartur",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d52ffcfd-e74e-4218-8df2-347789dedd67",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#tbodyid tr",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "a325582f-4f0e-489a-b856-f5de41446cd7",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=#tbodyid tr td:nth-child(2)",
+      "targets": [],
+      "value": "Samsung galaxy s6"
+    }, {
+      "id": "6a510b3c-c654-47db-9770-997cfb7a2c46",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=#tbodyid tr td:nth-child(3)",
+      "targets": [],
+      "value": "360"
+    }]
+  }, {
+    "id": "d468f9d3-4d51-49a2-b3ee-b07102755165",
+    "name": "3. delete_samsung_s6_from_cart",
+    "commands": [{
+      "id": "d8b9f504-ca96-45b4-91cb-5aa6d7b16250",
+      "comment": "",
+      "command": "open",
+      "target": "/cart.html",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "42813be2-9a5d-4922-bff7-111a2e9b4de4",
+      "comment": "",
+      "command": "waitForElementVisible",
+      "target": "css=#tbodyid",
+      "targets": [],
+      "value": "30000"
+    }, {
+      "id": "93112989-40e1-4fbf-893a-83769e31a113",
+      "comment": "",
+      "command": "pause",
+      "target": "",
+      "targets": [],
+      "value": "1500"
+    }, {
+      "id": "8ee0f0c3-855c-4204-8c88-3dbb4095a85a",
+      "comment": "",
+      "command": "storeXpathCount",
+      "target": "xpath=//tr[td[normalize-space()='Samsung galaxy s6']]",
+      "targets": [],
+      "value": "beforeCount"
+    }, {
+      "id": "21d2a140-e760-4c11-bf40-f0202c47070b",
+      "comment": "",
+      "command": "echo",
+      "target": "${beforeCount}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da00892e-baf0-49ba-ba3a-4bcf1c4b9d7a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Number(${beforeCount}) >= 1;",
+      "targets": [],
+      "value": "hasAtLeastOne"
+    }, {
+      "id": "4fd6c873-4634-4243-aa5c-06ec49d607c1",
+      "comment": "",
+      "command": "echo",
+      "target": "${hasAtLeastOne}",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0bc2dae2-b944-4fb3-b8db-189786f3cbb5",
+      "comment": "",
+      "command": "assert",
+      "target": "hasAtLeastOne",
+      "targets": [],
+      "value": "true"
+    }, {
+      "id": "a38cb80b-9c7c-405d-9d12-cbca3107e9ac",
+      "comment": "",
+      "command": "click",
+      "target": "css=#tbodyid tr td:nth-child(4) a",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "139721e2-76e9-41bd-8c04-697510a6f878",
+      "comment": "",
+      "command": "pause",
+      "target": "1500",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2afdaf47-0599-4ea9-8695-17cd426326a8",
+      "comment": "",
+      "command": "storeXpathCount",
+      "target": "xpath=//tr[td[normalize-space()='Samsung galaxy s6']]",
+      "targets": [],
+      "value": "afterCount"
+    }, {
+      "id": "b58108d2-4094-424f-99c0-51ffbf4755f4",
+      "comment": "",
+      "command": "executeScript",
+      "target": "return Number(${afterCount}) === Number(${beforeCount}) - 1;",
+      "targets": [],
+      "value": "deleteCountValid"
+    }, {
+      "id": "a4830608-2c7b-4570-8f1b-a7e44099c285",
+      "comment": "",
+      "command": "assert",
+      "target": "deleteCountValid",
+      "targets": [],
+      "value": "true"
+    }]
+  }],
+  "suites": [{
+    "id": "4ef6ee22-b917-4ccc-b502-edec6699e3c7",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["https://www.demoblaze.com/"],
+  "plugins": []
+}
