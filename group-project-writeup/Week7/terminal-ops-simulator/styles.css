@@ -1,0 +1,262 @@
+:root {
+  --bg: #f2ede3;
+  --panel: #fffdf7;
+  --ink: #14213d;
+  --ink-soft: #3f4b62;
+  --line: #d7cfbf;
+  --accent: #e76f51;
+  --accent-2: #2a9d8f;
+  --warn: #d62828;
+  --ok: #2a9d8f;
+  --shadow: 0 12px 26px rgba(20, 33, 61, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 15% 10%, #f8f4ec 0%, var(--bg) 55%, #e9e1d2 100%);
+  min-height: 100vh;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(20, 33, 61, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 33, 61, 0.06) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+}
+
+.hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem 1rem 0.5rem;
+  position: relative;
+}
+
+.eyebrow {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+h1 {
+  margin: 0.45rem 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.06;
+}
+
+.hero-copy {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+  grid-column: span 6;
+  animation: rise 500ms ease both;
+}
+
+.panel:nth-child(2) { animation-delay: 60ms; }
+.panel:nth-child(3) { animation-delay: 100ms; }
+.panel:nth-child(4) { animation-delay: 140ms; }
+.panel:nth-child(5) { animation-delay: 180ms; }
+.panel:nth-child(6) { animation-delay: 220ms; }
+.panel:nth-child(7) { animation-delay: 260ms; }
+
+.controls {
+  grid-column: span 5;
+}
+
+.status {
+  grid-column: span 7;
+}
+
+.wide {
+  grid-column: span 12;
+}
+
+h2 {
+  margin: 0.2rem 0 0.9rem;
+  font-size: 1.2rem;
+}
+
+h3 {
+  margin: 1rem 0 0.6rem;
+  font-size: 1rem;
+}
+
+.row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.fields {
+  display: grid;
+  gap: 0.45rem;
+}
+
+label {
+  font-size: 0.95rem;
+}
+
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--ink);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.6rem 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 140ms ease, filter 140ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+button.accent {
+  background: var(--accent);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.5rem;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.badge {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: #f9f4ea;
+}
+
+.badge span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.badge strong {
+  display: block;
+  margin-top: 0.22rem;
+  font-size: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.55rem;
+  border-bottom: 1px dashed var(--line);
+  vertical-align: top;
+}
+
+th {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.83rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.notes {
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.pass {
+  color: var(--ok);
+  font-weight: 700;
+}
+
+.fail {
+  color: var(--warn);
+  font-weight: 700;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .controls,
+  .status,
+  .panel,
+  .wide {
+    grid-column: span 12;
+  }
+
+  .badges {
+    grid-template-columns: 1fr;
+  }
+}
