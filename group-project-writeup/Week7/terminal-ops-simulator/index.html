@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terminal Ops Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="hero">
+    <p class="eyebrow">Week 6 Vibe Coding Lab | MSSE640</p>
+    <h1>Terminal Ops Simulator</h1>
+    <p class="hero-copy">
+      I built this lab so one passenger scenario can be tested through three lenses: state transitions,
+      control flow, and data flow. Load a preset scenario, run tests, and capture evidence for the report.
+    </p>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls">
+      <h2>Scenario Controls</h2>
+      <div class="row">
+        <label for="scenarioSelect">Scenario</label>
+        <select id="scenarioSelect"></select>
+      </div>
+      <div class="button-row">
+        <button id="loadScenarioBtn" type="button">Load Scenario</button>
+        <button id="runScenarioBtn" type="button">Run Scenario</button>
+        <button id="runAllBtn" type="button" class="accent">Run All Tests</button>
+        <button id="exportResultsBtn" type="button">Export Results CSV</button>
+      </div>
+
+      <h3>Passenger Input</h3>
+      <div class="fields">
+        <label><input id="boardingPassValid" type="checkbox" checked /> Boarding pass valid</label>
+        <label><input id="idMatch" type="checkbox" checked /> ID matches passenger</label>
+        <label><input id="prohibitedItemFound" type="checkbox" /> Prohibited item found</label>
+
+        <label for="bagWeightKg">Bag weight (kg)</label>
+        <input id="bagWeightKg" type="number" min="0" max="60" step="0.1" value="20" />
+
+        <label for="liquidMl">Liquid total (ml)</label>
+        <input id="liquidMl" type="number" min="0" max="500" step="1" value="80" />
+      </div>
+
+      <h3>Fault Injection</h3>
+      <label class="toggle">
+        <input id="injectUseBeforeDefine" type="checkbox" />
+        Inject use-before-define defect
+      </label>
+      <label class="toggle">
+        <input id="injectStaleReuse" type="checkbox" />
+        Inject stale variable reuse defect
+      </label>
+    </section>
+
+    <section class="panel status">
+      <h2>Latest Run Summary</h2>
+      <div class="badges">
+        <div class="badge">
+          <span>Final State</span>
+          <strong id="finalStateBadge">-</strong>
+        </div>
+        <div class="badge">
+          <span>Policy Decision</span>
+          <strong id="policyDecisionBadge">-</strong>
+        </div>
+        <div class="badge">
+          <span>Scenario Result</span>
+          <strong id="scenarioResultBadge">-</strong>
+        </div>
+      </div>
+      <p id="runNotes" class="notes">Ready. Choose a scenario and run tests to generate evidence.</p>
+    </section>
+
+    <section class="panel">
+      <h2>State Transition Trace</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>From</th>
+            <th>Event</th>
+            <th>To</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="stateTraceBody"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>Control Flow Trace</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Condition</th>
+            <th>Outcome</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="controlTraceBody"></tbody>
+      </table>
+    </section>
+
+    <section class="panel wide">
+      <h2>Data Flow Trace</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Variable</th>
+            <th>Action</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="dataFlowBody"></tbody>
+      </table>
+    </section>
+
+    <section class="panel wide">
+      <h2>Run All Test Matrix</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>State Test</th>
+            <th>Control Test</th>
+            <th>Data Flow Test</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody id="allResultsBody"></tbody>
+      </table>
+      <p id="allResultsSummary" class="notes">No suite run yet. Use Run All Tests before exporting CSV.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
