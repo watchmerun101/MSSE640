@@ -163,7 +163,7 @@ Add the final screenshots after executing the suite.
 #### Full Suite Result
 ![Full Selenium suite result](images/selenium-suite-pass.png)
 
-#### Full Suite Result
+#### Video Demo
 [![DEMO](images/video-demo-reference.png)](https://youtu.be/SmpY219l2So)
 
 ## Challenges And Notes
